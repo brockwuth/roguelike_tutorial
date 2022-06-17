@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import copy
+
 import tcod
 
 from engine import Engine
@@ -12,7 +13,7 @@ def main() -> None:
     screen_height = 50
 
     map_width = 80
-    map_height = 50
+    map_height = 45
 
     room_max_size = 10
     room_min_size = 6
@@ -25,7 +26,7 @@ def main() -> None:
     )
 
     player = copy.deepcopy(entity_factories.player)
-    
+
     engine = Engine(player=player)
 
     engine.game_map = generate_dungeon(
@@ -47,15 +48,11 @@ def main() -> None:
         vsync=True,
     ) as context:
         root_console = tcod.Console(screen_width, screen_height, order="F")
-        
-        # Ugly hack to clear 'Esc' from last instance of the game. -Brock 6/16/22
-        tcod.event.wait()
-
         while True:
             engine.render(console=root_console, context=context)
 
             engine.event_handler.handle_events()
-        
+
 
 if __name__ == "__main__":
     main()
